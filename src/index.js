@@ -16,14 +16,12 @@ class App extends React.Component {
 		</label>
 		<input id="name" type="text" placeholder= "Text to Search"/>
 		<button> Submit </button>
-		<ul>
-			<li>
+		<p>
 			Users: {this.state.users}
-			</li>
-			<li>
+			</p>
+			<p>
 			Tweet: {this.state.Tweet}
-			</li>
-		</ul>
+			</p>
 	</div>
 	)
 }
