@@ -6,10 +6,23 @@ class App extends React.Component {
 	constructor(){
 		super()
 		this.state = {
-			users: "Elon Musk",
-			Tweet: "Tesla is the best!"
+			datas: [],
+			isLoaded: false,
 		}
 	}
+
+	componentDidMount(){
+
+		fetch('https://api.twitter.com/1.1/search/tweets.json?q=nasa&result_type=popular')
+		.then(res => res.json())
+		.then(json => {
+			this.setState ({
+				isLoaded: true,
+				datas: json,
+			})
+		})
+	}
+
 	render(){
 
 		const outerDiv = {
@@ -40,8 +53,15 @@ class App extends React.Component {
 
 		const buttonStyle = {
 			width: "100px",
-			height: "50px"
+			height: "100px"
 		}
+
+		var {isLoaded, items} = this.state;
+
+		if (!isLoaded) {
+			return <div>Loading..</div>
+		}
+		else {
 
 			return (
 				<div style = {outerDiv}>
@@ -49,12 +69,16 @@ class App extends React.Component {
 					<input style= {searchDiv} id="name" type="text" placeholder= "Text to Search"/>
 					<button style={buttonStyle}> Submit </button>
 					<div style= {innerDiv}>
-						<p>
-							Users: {this.state.users}
-						</p>
-						<p>
-							Tweet: {this.state.Tweet}
-						</p>
+						<ul>
+							{datas.map(data => (
+								<li key={data.id}>
+									Users: {data.user.name}
+								</li>
+								<li>
+									Tweet: {data.text}
+								</li>
+								))}
+						</ul>
 					</div>
 				</div>
 			)
