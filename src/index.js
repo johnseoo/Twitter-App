@@ -1,27 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 class App extends React.Component {
 
 	constructor(){
 		super()
 		this.state = {
-			datas: [],
-			isLoaded: false,
+			user: "Elon Musk",
+			tweet: "Something",
 		}
 	}
-
-	componentDidMount(){
-
-		fetch('https://api.twitter.com/1.1/search/tweets.json?q=nasa&result_type=popular')
-		.then(res => res.json())
-		.then(json => {
-			this.setState ({
-				isLoaded: true,
-				datas: json,
-			})
-		})
-	}
+	componentDidMount() {
+		axios.post(`https://api.twitter.com/oauth2/token`)
+      		.then(res => {
+        		"x-www-form-urlencoded" = {
+        			"grant_type:client_credentials"
+        		};
+        		authorization = {
+        			username: "79Kfiv6pxCQfYP1ONK3cBeR5J",
+        			password: "g9uHbJCyrNBWqQ7YMDT7L4Nypxlr4f3pwqYE6oG8radnEYVmuf"
+        		};
+      		})
+		}
+	
+  
 
 	render(){
 
@@ -52,33 +55,22 @@ class App extends React.Component {
 		}
 
 		const buttonStyle = {
-			width: "100px",
-			height: "100px"
+			width: "110px",
+			height: "55px"
 		}
-
-		var {isLoaded, items} = this.state;
-
-		if (!isLoaded) {
-			return <div>Loading..</div>
-		}
-		else {
 
 			return (
 				<div style = {outerDiv}>
 					<label className="label"></label>
-					<input style= {searchDiv} id="name" type="text" placeholder= "Text to Search"/>
+					<input style = {searchDiv} id="name" type="text" placeholder= "Text to Search"/>
 					<button style={buttonStyle}> Submit </button>
 					<div style= {innerDiv}>
-						<ul>
-							{datas.map(data => (
-								<li key={data.id}>
-									Users: {data.user.name}
-								</li>
-								<li>
-									Tweet: {data.text}
-								</li>
-								))}
-						</ul>
+						<p>
+							Users: {this.state.user}
+						</p>
+						<p>
+							Tweet: {this.state.tweet}	
+						</p>
 					</div>
 				</div>
 			)
